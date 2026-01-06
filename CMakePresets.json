@@ -1,0 +1,117 @@
+﻿{
+  "version": 3,
+  "configurePresets": [
+    {
+      "name": "windows",
+      "hidden": true,
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/out/build/${presetName}",
+      "installDir": "${sourceDir}/out/build/${presetName}",
+      "toolchainFile": "C:/vcpkg/scripts/buildsystems/vcpkg.cmake",
+      "cacheVariables": {
+        "CMAKE_C_COMPILER": "cl.exe",
+        "CMAKE_CXX_COMPILER": "cl.exe"
+      },
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Windows"
+      }
+    },
+    {
+      "name": "windows-debug",
+      "inherits": "windows"
+    },
+    {
+      "name": "windows-release",
+      "inherits": "windows"
+    },
+    {
+      "name": "windows-test-debug",
+      "inherits": "windows",
+      "cacheVariables": { "RT_UT_UNIT_TESTS": true }
+    },
+    {
+      "name": "windows-test-release",
+      "inherits": "windows",
+      "cacheVariables": { "RT_UT_UNIT_TESTS": true }
+    },
+    {
+      "name": "linux",
+      "hidden": true,
+      "displayName": "linux (Multi-Config)",
+      "generator": "Ninja Multi-Config",
+      "binaryDir": "${sourceDir}/out/build/${presetName}",
+      "installDir": "${sourceDir}/out/build/${presetName}",
+      "toolchainFile": "/home/chris/vcpkg/scripts/buildsystems/vcpkg.cmake",
+      "cacheVariables": {
+        "CMAKE_CXX_COMPILER": "clang++-19"
+      },
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Linux"
+      }
+    },
+    {
+      "name": "linux-debug",
+      "inherits": "linux"
+    },
+    {
+      "name": "linux-release",
+      "inherits": "linux"
+    },
+    {
+      "name": "linux-test-debug",
+      "inherits": "linux",
+      "cacheVariables": { "RT_UT_UNIT_TESTS": true }
+    },
+    {
+      "name": "linux-test-release",
+      "inherits": "linux",
+      "cacheVariables": { "RT_UT_UNIT_TESTS": true }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "windows-debug",
+      "configurePreset": "windows-debug",
+      "configuration": "Debug"
+    },
+    {
+      "name": "windows-release",
+      "configurePreset": "windows-release",
+      "configuration": "Release"
+    },
+    {
+      "name": "windows-test-debug",
+      "configurePreset": "windows-test-debug",
+      "configuration": "Debug"
+    },
+    {
+      "name": "windows-test-release",
+      "configurePreset": "windows-test-release",
+      "configuration": "Release"
+    },
+    {
+      "name": "linux-debug",
+      "configurePreset": "linux-debug",
+      "configuration": "Debug"
+    },
+    {
+      "name": "linux-release",
+      "configurePreset": "linux-release",
+      "configuration": "Release"
+    },
+    {
+      "name": "linux-test-debug",
+      "configurePreset": "linux-test-debug",
+      "configuration": "Debug"
+    },
+    {
+      "name": "linux-test-release",
+      "configurePreset": "linux-test-release",
+      "configuration": "Release"
+    }
+  ]
+}
