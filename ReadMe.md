@@ -25,7 +25,7 @@ run. One include, no build step.
 
 ## What It Is
 
-rt-ut provides assertions and pass/fail reporting — nothing more. There are no
+rt-ut provides assertions and pass/fail reporting, nothing more. There are no
 fixtures, no mocks, no test discovery, no registration macros. A test is a name
 (a string literal template parameter) and a callable; the framework invokes it,
 compares or evaluates the result, prints a line, and returns a `bool` you can
@@ -62,7 +62,7 @@ int main() {
     rt_ut::unit_test<"ne">::assert_ne<0>(
         [] { return 42; });
 
-    // Predicate — passes when the callable returns true
+    // Predicate: passes when the callable returns true
     rt_ut::unit_test<"predicate">::run(
         [] { return 2 + 2 == 4; });
 
@@ -117,6 +117,29 @@ the caller.
 Integer results are promoted before printing (so `uint8_t`/`int8_t` show as
 numbers, not characters), `bool` results print as `true`/`false`, and
 `std::tuple` values are printable.
+
+## Utilities
+
+The headers also expose the helpers the framework is built on:
+
+- `rt_ut::string_literal<N>`: the compile-time string type used for test names.
+  Supports `+` concatenation with other literals and `char` arrays, `==`,
+  `operator[]`, `data()`, `size()`, explicit conversion to string types such as
+  `std::string`, and streaming to `std::ostream`.
+- `rt_ut::to_string_literal<number>()`: converts an integer non-type template
+  parameter to a `string_literal` at compile time (`consteval`).
+- `rt_ut::count_digits(number)`: digit count of an integer, including the sign
+  for negative values. Usable at compile time and at runtime.
+- `rt_ut::create_string_literal<N>(str)` and
+  `rt_ut::concatenate_string_literals(literals...)`: build and join literals.
+- `rt_ut::print(os, value)`: the printer behind failure messages, with the
+  integer, `bool` and generic overloads described above.
+
+The configuration macros in `rt-ut-incl/defines.hpp` (`RT_UT_INLINE`,
+`RT_UT_LIFETIME_BOUND` and the `RT_UT_ARCH_*`, `RT_UT_PLATFORM_*` and
+`RT_UT_COMPILER_*` detection macros) are guarded by `#ifndef`, so they can be
+overridden before including `<rt-ut>`. The CMake target also defines them for
+consumers.
 
 ## Output
 
@@ -206,4 +229,4 @@ find . \( -path ./out -o -path ./build \) -prune -o \( -name '*.cpp' -o -name '*
 
 ## License
 
-MIT © 2026 Nihilai Collective Corp — see [License](License.md).
+MIT © 2026 Nihilai Collective Corp. See [License](License.md).

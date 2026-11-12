@@ -14,11 +14,11 @@
 
 namespace std {
 
-	template<typename tuple_type, std::size_t... indices> void print_tuple_elements(std::ostream& os, const tuple_type& t, std::index_sequence<indices...>) {
+	template<typename tuple_type, std::size_t... indices> inline void print_tuple_elements(std::ostream& os, const tuple_type& t, std::index_sequence<indices...>) {
 		((os << (indices == 0 ? "" : ", ") << std::get<indices>(t)), ...);
 	}
 
-	template<typename... types> std::ostream& operator<<(std::ostream& os RT_UT_LIFETIME_BOUND, const std::tuple<types...>& t) {
+	template<typename... types> inline std::ostream& operator<<(std::ostream& os RT_UT_LIFETIME_BOUND, const std::tuple<types...>& t) {
 		os << '(';
 		print_tuple_elements(os, t, std::index_sequence_for<types...>{});
 		os << ')';
@@ -28,18 +28,18 @@ namespace std {
 
 namespace rt_ut {
 
-	template<typename value_type> std::ostream& print(std::ostream& os RT_UT_LIFETIME_BOUND, value_type value) {
+	template<rt_ut::integer_types value_type> inline std::ostream& print(std::ostream& os RT_UT_LIFETIME_BOUND, value_type value) {
+		os << +value;
+		return os;
+	}
+
+	template<typename value_type> inline std::ostream& print(std::ostream& os RT_UT_LIFETIME_BOUND, value_type value) {
 		os << value;
 		return os;
 	}
 
-	template<bool_t value_type> std::ostream& print(std::ostream& os RT_UT_LIFETIME_BOUND, value_type value) {
+	template<bool_types value_type> inline std::ostream& print(std::ostream& os RT_UT_LIFETIME_BOUND, value_type value) {
 		os << std::boolalpha << value << std::noboolalpha;
-		return os;
-	}
-
-	template<rt_ut::integer_types value_type> std::ostream& print(std::ostream& os RT_UT_LIFETIME_BOUND, value_type value) {
-		os << +value;
 		return os;
 	}
 
