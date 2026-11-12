@@ -38,6 +38,34 @@ Every pull request is built by CI on the following matrix, and all of it must pa
 - Keep includes lean. Only include what the file actually uses.
 - Keep changes focused. Unrelated refactors belong in their own pull request.
 
+### Declarations
+
+- Namespace-scope constexpr values are `inline constexpr`.
+- Class-scope constexpr values are `static constexpr`.
+- Function-scope constexpr values are `static constexpr` once the project targets C++23 or later. While it targets C++20, leave them as plain `constexpr`.
+- Mark every member function that can be `const` as `const`.
+- Mark every function that can be `noexcept` as `noexcept`. Functions that allocate, write to streams, or throw by design stay unmarked.
+- Mark every function that can be `consteval` as `consteval`. Functions that callers may reasonably invoke at runtime stay `constexpr`.
+- Mark every function `inline` (or `RT_UT_INLINE`) unless it is already `consteval`.
+- Every enum has an explicit underlying type: the smallest unsigned integer type that holds all of its values.
+
+### Member Ordering
+
+Order the contents of every struct and class like this:
+
+1. Type aliases
+2. Default constructor
+3. Parameterized constructors
+4. Move assignment operator
+5. Move constructor
+6. Copy assignment operator
+7. Copy constructor
+8. Other functions, in descending order of the character count of their longest line
+9. Destructor
+10. Data members, ordered first to optimize alignment, then in descending order of line length
+
+Namespace-scope functions follow the same descending longest-line rule, after any ordering their dependencies require (a function used in another declaration's signature or default template argument comes first).
+
 ## Scope
 
 rt-ut is deliberately small: assertions and pass/fail reporting, nothing more. Proposals for fixtures, mocks, test discovery, or registration macros are out of scope. Changes that keep the surface small and the header free of dependencies are the ones most likely to be accepted.
@@ -47,6 +75,7 @@ rt-ut is deliberately small: assertions and pass/fail reporting, nothing more. P
 - [ ] Builds and passes tests on all CI platforms
 - [ ] Formatted with clang-format
 - [ ] No added explanatory code comments (source attributions are permitted)
+- [ ] Declarations and member ordering follow the Code Style rules
 - [ ] No new dependencies
 - [ ] Linked to the issue it addresses, if any
 

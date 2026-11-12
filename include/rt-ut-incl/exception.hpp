@@ -20,7 +20,7 @@ namespace rt_ut {
 		inline rt_ut_exception(const std::string& string) : error{ string } {
 		}
 
-		[[maybe_unused]] const std::string_view what() const noexcept RT_UT_LIFETIME_BOUND {
+		[[maybe_unused]] inline const std::string_view what() const noexcept RT_UT_LIFETIME_BOUND {
 			return error;
 		}
 

@@ -283,7 +283,7 @@ int32_t main([[maybe_unused]] int32_t argc, [[maybe_unused]] char** argv) {
 		});
 
 		all_passed &= unit_test<"concept-bool-t-classification">::run([]() constexpr {
-			return bool_t<bool> && !bool_t<int32_t> && !bool_t<double>;
+			return bool_types<bool> && !bool_types<int32_t> && !bool_types<double>;
 		});
 
 		all_passed &= unit_test<"concept-integer-types-classification">::run([]() constexpr {
@@ -291,7 +291,7 @@ int32_t main([[maybe_unused]] int32_t argc, [[maybe_unused]] char** argv) {
 		});
 
 		all_passed &= unit_test<"concept-std-exception-type-is-exact-match-only">::run([]() constexpr {
-			return std_exception_type<std::exception> && !std_exception_type<std::runtime_error>;
+			return std_exception_types<std::exception> && !std_exception_types<std::runtime_error>;
 		});
 
 		all_passed &= unit_test<"string-literal-equality-true">::run([] {
