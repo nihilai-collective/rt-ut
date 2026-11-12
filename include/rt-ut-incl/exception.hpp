@@ -16,16 +16,14 @@
 
 namespace rt_ut {
 
-	struct rt_ut_exception {
-		inline rt_ut_exception(const std::string& string) : error{ string } {
-		}
-
-		[[maybe_unused]] const std::string_view what() const noexcept RT_UT_LIFETIME_BOUND {
-			return error;
-		}
-
-	  protected:
-		std::string error{};
+	struct rt_ut_exception : public std::runtime_error {
+		explicit rt_ut_exception(const std::string& string);
+		~rt_ut_exception() override;
 	};
+
+	rt_ut_exception::rt_ut_exception(const std::string& string) : std::runtime_error{ string } {
+	}
+
+	rt_ut_exception::~rt_ut_exception() = default;
 
 }
